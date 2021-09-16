@@ -70,7 +70,7 @@ exports.likeDislikeSauce = (req, res, next) => {
 
     case 0 :
         Sauce.findOne({ _id: sauceId })
-           .then((sauce) => {
+          .then((sauce) => {
             if (sauce.usersLiked.includes(userId)) { 
               Sauce.updateOne({ _id: sauceId }, { $pull: { usersLiked: userId }, $inc: { likes: -1 }})
                 .then(() => res.status(200).json({ message: `Neutre` }))
