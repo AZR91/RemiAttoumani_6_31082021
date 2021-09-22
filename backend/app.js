@@ -1,5 +1,5 @@
+const mongoose = require('mongoose');
 const express = require("express");
-const mongoose = require("mongoose");
 const helmet = require('helmet');
 const path = require("path");
 require('dotenv').config();
@@ -7,16 +7,21 @@ require('dotenv').config();
 const userRoutes = require('./routes/user')
 const sauceRoutes = require('./routes/sauce');
 
-mongoose
+/*mongoose
 .connect(
     
     process.env.SECRET_DB,
     { useNewUrlParser: true, useUnifiedTopology: true }
 )
 .then(() => console.log("Connexion à MongoDB réussie !"))
-.catch(() => console.log("Connexion à MongoDB échouée !"));
+.catch(() => console.log("Connexion à MongoDB échouée !"));*/
 
 const app = express();
+mongoose.connect('mongodb+srv://AZR91:14061991@cluster0.z8fdq.mongodb.net/remi?retryWrites=true&w=majority',
+  { useNewUrlParser: true,
+    useUnifiedTopology: true })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 app.use(helmet());
 app.use((req, res, next) => {
@@ -42,7 +47,7 @@ app.use('/api/sauces', sauceRoutes)
 module.exports = app;
 
 const { MongoClient } = require('mongodb');
-const uri = "mongodb+srv://AZR91:<password>@cluster0.z8fdq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const uri = "mongodb+srv://AZR91:14061991@cluster0.z8fdq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
 const collection = client.db("test").collection("devices");

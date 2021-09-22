@@ -6,6 +6,8 @@ require('dotenv').config();
 
 
 exports.signup = (req, res, next) => {
+  console.log(req);
+  console.log(res);
   const hashedEmail = cryptojs.HmacSHA512(req.body.email, process.env.SECRET_CRYPTOJS_TOKEN).toString(cryptojs.enc.Base64);
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
