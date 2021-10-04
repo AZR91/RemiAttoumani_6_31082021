@@ -6,9 +6,7 @@ require('dotenv').config();
 
 
 exports.signup = (req, res, next) => {
-  console.log("Je passe par là!");
-   console.log(req.body);
-   // console.log(res);
+
   const hashedEmail = cryptojs.HmacSHA512(req.body.email, process.env.SECRET_TOKEN).toString(cryptojs.enc.Base64);
   bcrypt.hash(req.body.password, 10)
     .then(hash => {
@@ -16,22 +14,15 @@ exports.signup = (req, res, next) => {
         email: hashedEmail,
         password: hash
       });
-      console.log(user);
-      console.log("Je passe encore par là!");
-      /** Résoudre ce save */
-      /*user.save()
-        .then(() => {res.status(201).json({ message: 'Utilisateur créé !' });
-      console.log("J'entre dans le save!");})
-        .catch(error => res.status(400).json({ error }));*/
-         // new User(req.body).save();
-         user.save(function(err, user){
- if(err) return console.error(err);
- console.log(" User saved succussffully");
-         });
-        console.log("Je passe encore encore par là!");
+    // cela fonctionne
+    user.save(function(err, user){
+      if(err) return res.status(400).json({ err });
+      return res.status(201).json({ message: 'Utilisateur créé !' });
+              });
+    
     })
     .catch(error => { 
-      console.log(error)
+    
       return res.status(500).json({ error }) });
 };
 
